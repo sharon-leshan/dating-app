@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState } from 'react';
 import DatingCard from 'react-tinder-card'
 import './DatingCards.css'
-import axios from 'axios'
 
 const DatingCards = () => {
-    const [people, setPeople] = useState([
+    const [people] = useState([
          {
         _id: "616f36e393f3f0e7a7a2a601",
         name: "Random Guy",
@@ -26,15 +25,9 @@ const DatingCards = () => {
         imgUrl: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVu",
         },
     ])
-    useEffect(() => {
-        async function fetchData(){
-            const req = await axios.get("/dating/cards")
-            setPeople(req.data)
-        }
-        fetchData()
-    }, [])
+   
     const swiped = (directoin, nameToDelete) => {
-        console.log("receiving" + nameToDelete)
+        console.log("receiving " + nameToDelete)
     } 
     const outOfFrame = (name) => {
         console.log(name + "left the screen!!")
@@ -42,14 +35,14 @@ const DatingCards = () => {
     return(
         <div className="datingCards" >
             <div className="datingCards__container">
-                {people.map((People) => (
+                {people.map((person) => (
                     <DatingCard className="swipe"
-                    key={People.name}
+                    key={person.name}
                     preventSwipe={['up', 'down']}
-                    onSwipe={(dir) => swiped(people.name)}
-                    onCandleftScreen={()=> outOfFrame(people.name)}>
-                    <div style={{backgroundImage: `url(${people.imgUrl})`}} className="card">
-                        <h3>{people.name}</h3>
+                    onSwipe={(dir) => swiped(person.name)}
+                    onCandleftScreen={()=> outOfFrame(person.name)}>
+                    <div style={{backgroundImage: `url(${person.imgUrl})`}} className="card">
+                        <h3>{person.name}</h3>
                     </div>
                     </DatingCard>
                 ))}
